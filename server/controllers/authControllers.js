@@ -19,6 +19,13 @@ export async function login (req, res) {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 }
-export async function datos (req, res) {
-    
+export async function ticker (req, res) {
+    const { username, password } = req.body;
+
+    try {
+        
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
 }

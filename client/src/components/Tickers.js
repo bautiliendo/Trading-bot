@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../index.css';
 import { tickers } from './TickerList'
 
+
 export const Tickers = () => {
   const [tickersData, setTickersData] = useState([]);
 
@@ -12,13 +13,13 @@ export const Tickers = () => {
 
     tickersData.forEach(async (ticker) => {
       try {
-        // const response = await fetch(`https://api.invertironline.com/api/v2/${ticker.mercado}/Titulos/${ticker.simbolo}/Cotizacion?mercado=${ticker.mercado}&simbolo=${ticker.simbolo}&model.simbolo=${ticker.simbolo}&model.mercado=${ticker.mercado}&model.plazo=${ticker.plazo}`);
-        // if (response.ok) {
-        //   const data = await response.json();
-        //   console.log(data); // Haz algo con los datos de la respuesta, como guardarlos en el estado o mostrarlos en la interfaz
-        // } else {
-        //   console.error('Error en la petición:', response.statusText);
-        // }
+      //   const response = await fetch('http://localhost:3001/auth/ticker', {
+      //   method: 'GET',
+      //   headers: {
+      //     'Content-Type': 'application/json'
+      //   },
+      //   body: JSON.stringify({ username, password })
+      // });
       } catch (error) {
         console.error('Error en la petición:', error);
       }
