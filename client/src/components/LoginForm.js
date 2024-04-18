@@ -1,16 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import '../index.css';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
+import AuthContext from './AuthContext';
 
 
 export const LoginForm = () => {
+  const { setBearer } = useContext(AuthContext);
   const navigate = useNavigate()
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   
-
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -30,12 +31,10 @@ export const LoginForm = () => {
       } else {
         toast.success('Inicio de sesión exitoso. Bienvenido! ')
         const data = await response.json();
-        console.log(data);
+        setBearer(data);
         navigate('/tickers')
       }
 
-     
-       // Aquí puedes manejar la respuesta del servidor
     } catch (error) {
       console.error(error);
       setErrorMessage('Error al iniciar sesión. Por favor, verifica tus credenciales.');

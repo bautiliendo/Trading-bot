@@ -116,7 +116,7 @@ transform: scale(1.05);
 }
 
 .button2:hover{
-transform: scale(1.03);
+transform: scale(1.01);
 background-color: rgb(171, 250, 171);
 }
 .button3{
@@ -130,7 +130,7 @@ background-color: rgb(171, 250, 171);
   font-size: 15px;
 }
 .button3:hover{
-transform: scale(1.03);
+transform: scale(1.01);
 background-color: rgb(247, 149, 149);
 }
 /*Form tickers */
@@ -141,3 +141,18 @@ background-color: rgb(247, 149, 149);
   border-radius: 6px;
 } 
 
+/* BUTTON TRADE  */
+.button4 {
+  margin-top: 40px;
+  border: 1px solid ; 
+  border-radius: 8px;
+  padding: 9px 30px;
+  text-align: center;
+  text-decoration: none;
+  margin-left: 10px;
+  font-size: 25px;
+}
+.button4:hover{
+  transform: scale(1.01);
+  background-color: rgb(171, 250, 171);
+  }
