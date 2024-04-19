@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import '../index.css';
 import { tickers } from './TickerList'
 import AuthContext from './AuthContext';
-
+import { toast } from 'react-hot-toast';
 
 export const Tickers = () => {  
   const bearer = useContext(AuthContext)
@@ -40,26 +40,33 @@ export const Tickers = () => {
   }
 
   //Boton para iniciar TRADE
-  const trade = e => {
+  const trade = async e => {
     e.preventDefault();
     try {
-      tickersData.forEach(async (ticker) => {
-        const response = await fetch('http://localhost:3001/auth/trade', { // CREAR RUTA TRADE EN SERVER
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'   // CHEQUEAR EN PAGINA API SI ESTA BIEN ESTA LOGICA
-        },
-        body: JSON.stringify({accessToken})   // CHEQUEAR EN PAGINA API SI ESTA BIEN ESTA LOGICA
-      });
+      await Promise.all(tickersData.map(async (ticker) => {
+        const { mercado, simbolo, plazo } = ticker // Extraer mercado, símbolo y plazodel ticker actual
+        const response = await fetch(`http://localhost:3001/auth/trade?mercado=${mercado}&simbolo=${simbolo}$plazo=${plazo}`, { 
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${accessToken}` // Incluir el token de acceso en el encabezado de autorización
+          },
+        });
+        if (!response.ok) {
+          toast.error("Error al iniciar trade");
+          throw new Error('Error trade');
+        } else {
+          toast.success('Trade exitoso');
+          const data = await response.json();
+          console.log(data);
+        }
 
-      // MANEJAR RESPUESTA 
-      })
+      }));
     } catch (error) {
       console.error('Error durante el trading:', error);
     }
   };
-
-
+  
   return (
     <div className='container2'>
         <button className='button4 ' onClick={trade}>TRADE</button>
