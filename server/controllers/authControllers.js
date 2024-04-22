@@ -21,13 +21,11 @@ export async function login (req, res) {
 };
 
 export async function trade (req, res) {
-    const accessToken = req.headers.authorization;
-    const mercado = req.query.mercado;
-    const simbolo = req.query.simbolo;
-    const plazo = req.query.plazo || t0 //Mejorar esta logica, para que se hagan 2 peticiones (t0 y t2)
-    try { //Arreglar tema de model.mercado y model.simbolo(ALUA)
-        const response = await fetch(`https://api.invertironline.com/api/v2/${mercado}/Titulos/${simbolo}/Cotizacion?mercado=${mercado}&simbolo=${simbolo}&model.simbolo=ALUA&model.mercado=${mercado}&model.plazo=${plazo}`,
-         {
+    
+    const { accessToken, mercado, simbolo, plazo } = req.query;
+
+    try {
+        const response = await fetch(`https://api.invertironline.com/api/v2/{Mercado}/Titulos/{Simbolo}/Cotizacion?mercado=${mercado}&simbolo=${simbolo}&model.simbolo=ALUA&model.mercado=bCBA&model.plazo=${plazo}&api_key=${accessToken}`, {
         method: 'GET',
         headers: {
             'Accept': 'application/json',

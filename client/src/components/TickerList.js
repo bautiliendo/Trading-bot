@@ -1,5 +1,5 @@
 export const tickers = [
-  { mercado: "BCBA", simbolo: "AE38", plazo: "t0"},
+  { mercado: "BCBA", simbolo: "AE38", plazo: ["t0", "t2"]},
   { mercado: "BCBA", simbolo: "AE38D", plazo: ["t0", "t2"] },
   { mercado: "BCBA", simbolo: "AL29", plazo: ["t0", "t2"] },
   { mercado: "BCBA", simbolo: "AL30", plazo: ["t0", "t2"] },

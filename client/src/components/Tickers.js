@@ -9,6 +9,7 @@ export const Tickers = () => {
   const [tickersData, setTickersData] = useState([]);
   const [accessToken, setAccessToken ] = useState("Aqui no hay nada");
 
+
   useEffect(() => {
       setAccessToken(bearer.bearer.access_token);
   }, [bearer]); 
@@ -40,37 +41,43 @@ export const Tickers = () => {
   }
 
   //Boton para iniciar TRADE
-  const trade = async e => {
-    e.preventDefault();
+  const trade = async (event) => {
+    event.preventDefault();
+
     try {
-      await Promise.all(tickersData.map(async (ticker) => {
-        const { mercado, simbolo, plazo } = ticker // Extraer mercado, símbolo y plazodel ticker actual
-        const response = await fetch(`http://localhost:3001/auth/trade?mercado=${mercado}&simbolo=${simbolo}$plazo=${plazo}`, { 
+      const promises = tickersData.map(async (ticker) => {
+        const { mercado, simbolo, plazo } = ticker 
+        const url = `http://localhost:3001/auth/trade?accessToken=${accessToken}&mercado=${mercado}&simbolo=${simbolo}&plazo=${plazo}`;
+        const response = await fetch(url, { 
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${accessToken}` // Incluir el token de acceso en el encabezado de autorización
           },
         });
+
         if (!response.ok) {
-          toast.error("Error al iniciar trade");
-          throw new Error('Error trade');
+          throw new Error('Error inicializacion de trade');
+
         } else {
-          toast.success('Trade exitoso');
           const data = await response.json();
           console.log(data);
         }
+      });
 
-      }));
+      await Promise.all(promises);
+      toast.success('Trade exitoso');
+
     } catch (error) {
-      console.error('Error durante el trading:', error);
+      console.error(error);
+      toast.error(error.message);
     }
   };
+  
   
   return (
     <div className='container2'>
         <button className='button4 ' onClick={trade}>TRADE</button>
-        <h2 className='white'>Agregar ticker</h2>
+        <h2 className=''>Agregar ticker</h2>
         <form className='form-tickers' onSubmit={anadirTicker}>
         <select name='mercado' className='input-small'>
             <option value="BCBA">BCBA</option>
@@ -87,7 +94,7 @@ export const Tickers = () => {
           </select>
           <button type="submit" className='button2'>Añadir</button>
         </form>
-        <h3 className='white'>Tickers: </h3>
+        <h3 className=''>Tickers: </h3>
           <div className='tickers-container'>
           {tickersData.map((ticker, index) => (
             <ul key={index} className='tickers'>

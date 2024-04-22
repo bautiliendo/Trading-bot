@@ -21,8 +21,11 @@ code {
 
 /* ESTILOS FORM */
 .container {
-  background-color: #21D4FD;
-  background-image: linear-gradient(19deg, #2b52bb 0%, #3c0357 100%); 
+  /* background-color: #21D4FD;
+  background-image: linear-gradient(19deg, #2b52bb 0%, #3c0357 100%);  */
+  background-color: #e5e5f7;
+  opacity: 0.8;
+  background-image:  repeating-radial-gradient( circle at 0 0, transparent 0, #e5e5f7 10px ), repeating-linear-gradient( #444cf755, #444cf7 );
   display: flex;
   justify-content: center; /* Centra horizontalmente */
   align-items: center; /* Centra verticalmente */
@@ -80,8 +83,11 @@ transform: scale(1.05);
 
 /* TICKERS */
 .container2 {
-  background-color: #21D4FD;
-  background-image: linear-gradient(19deg, #2b52bb 0%, #3c0357 100%); 
+  /* background-color: #21D4FD;
+  background-image: linear-gradient(19deg, #2b52bb 0%, #3c0357 100%);  */
+  background-color: #e5e5f7;
+  opacity: 0.8;
+  background-image:  repeating-radial-gradient( circle at 0 0, transparent 0, #e5e5f7 10px ), repeating-linear-gradient( #444cf755, #444cf7 );
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -156,3 +162,5 @@ background-color: rgb(247, 149, 149);
   transform: scale(1.01);
   background-color: rgb(171, 250, 171);
   }
+
+
