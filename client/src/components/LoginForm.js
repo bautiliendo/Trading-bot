@@ -3,6 +3,7 @@ import '../index.css';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import AuthContext from './AuthContext';
+import { Tickers } from './Tickers';
 
 
 export const LoginForm = () => {

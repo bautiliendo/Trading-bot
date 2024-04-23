@@ -90,7 +90,7 @@ export const Tickers = () => {
             <input type="text" name='simbolo' placeholder='Símbolo' className='input-small' />
             <select name='plazo' className='input-small'>
             <option value="t0">t0</option>
-            <option value="t2">t2</option>
+            <option value="t1">t1</option>
           </select>
           <button type="submit" className='button2'>Añadir</button>
         </form>

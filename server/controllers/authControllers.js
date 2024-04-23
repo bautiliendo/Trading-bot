@@ -25,7 +25,7 @@ export async function trade (req, res) {
     const { accessToken, mercado, simbolo, plazo } = req.query;
 
     try {
-        const response = await fetch(`https://api.invertironline.com/api/v2/{Mercado}/Titulos/{Simbolo}/Cotizacion?mercado=${mercado}&simbolo=${simbolo}&model.simbolo=ALUA&model.mercado=bCBA&model.plazo=${plazo}&api_key=${accessToken}`, {
+        const response = await fetch(`https://api.invertironline.com/api/v2/{Mercado}/Titulos/{Simbolo}/Cotizacion?mercado=${mercado}&simbolo=${simbolo}&model.simbolo=${simbolo}&model.mercado=${mercado}&model.plazo=${plazo}&api_key=${accessToken}`, {
         method: 'GET',
         headers: {
             'Accept': 'application/json',
