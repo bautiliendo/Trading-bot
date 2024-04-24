@@ -3,6 +3,7 @@ import "../index.css";
 import { tickers } from "./TickerList";
 import AuthContext from "./AuthContext";
 import { toast } from "react-hot-toast";
+import { Table } from "./Table";
 
 export const Tickers = () => {
   const bearer = useContext(AuthContext);
@@ -31,6 +32,10 @@ export const Tickers = () => {
   useEffect(() => {
     console.log(t1);
   }, [t1]);
+  
+  useEffect(() => {
+    console.log(t0);
+  }, [t0]);
 
   //Boton para añadir nuevos tickers
   const anadirTicker = (e) => {
@@ -56,31 +61,59 @@ export const Tickers = () => {
     try {
       const promises = tickersData.map(async (ticker) => {
         const { mercado, simbolo, plazo } = ticker;
-        const url = `http://localhost:3001/auth/trade?accessToken=${accessToken}&mercado=${mercado}&simbolo=${simbolo}&plazo=${plazo[1]}`;
-        const response = await fetch(url, {
+        const urlT1 = `http://localhost:3001/auth/trade?accessToken=${accessToken}&mercado=${mercado}&simbolo=${simbolo}&plazo=${plazo[1]}`;
+        const responseT1 = await fetch(urlT1, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
           },
         });
 
-        if (!response.ok) {
-          throw new Error("Error inicializacion de trade");
+        if (!responseT1.ok) {
+          throw new Error("Error en el trade t1");
         } else {
-          const data = await response.json();
-          console.log(data);
-          const newObj = {
-            mercado,
+          const dataT1 = await responseT1.json();
+          // console.log(dataT1);
+          const newObjT1 = {
+            // mercado,
             simbolo,
-            plazo,
-            data,
+            // plazo,
+            dataT1,
           };
-          setT1((prevT1) => [...prevT1, newObj]);
+          setT1((prevT1) => [...prevT1, newObjT1]);
         }
       });
 
       await Promise.all(promises);
-        toast.success("Trade exitoso");
+      
+      // Fetch t0 data for each ticker
+      const t0Promises = tickersData.map(async (ticker) => {
+        const { mercado, simbolo, plazo } = ticker;
+        const urlT0 = `http://localhost:3001/auth/trade?accessToken=${accessToken}&mercado=${mercado}&simbolo=${simbolo}&plazo=${plazo[0]}`;
+        const responseT0 = await fetch(urlT0, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (!responseT0.ok) {
+          throw new Error("Error en el trade T0");
+        } else {
+          const dataT0 = await responseT0.json();
+          // console.log(dataT0);
+          const newObjtT0 = {
+            // mercado,
+            simbolo,
+            // plazo,
+            dataT0
+          };
+          setT0((prevT0) => [...prevT0, newObjtT0]);
+        }
+      });
+
+      await Promise.all(t0Promises);
+      toast.success();
 
     } catch (error) {
       console.error(error);
@@ -141,6 +174,9 @@ export const Tickers = () => {
           </ul>
         ))}
       </div>
+      <p>{t1.length > 1 && t1[0] ? 
+      JSON.stringify(t1[0].simbolo) : null}
+      </p>
     </div>
   );
 };
