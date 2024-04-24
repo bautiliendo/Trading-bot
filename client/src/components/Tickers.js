@@ -7,8 +7,9 @@ import { toast } from "react-hot-toast";
 export const Tickers = () => {
   const bearer = useContext(AuthContext);
   const [tickersData, setTickersData] = useState([]);
-  const [accessToken, setAccessToken] = useState("Aqui no hay nada");
-  const [data, setData] = useState([]);
+  const [accessToken, setAccessToken] = useState("Acces token nulo");
+  const [t0, setT0] = useState([]);
+  const [t1, setT1] = useState([]);
 
   useEffect(() => {
     setAccessToken(bearer.bearer.access_token);
@@ -24,8 +25,12 @@ export const Tickers = () => {
   }, []);
 
   useEffect(() => {
-    console.log(tickersData); // SOLUCIONAR PROBLEMA DE F5
+    console.log(tickersData);
   }, [tickersData]);
+
+  useEffect(() => {
+    console.log(t1);
+  }, [t1]);
 
   //Boton para añadir nuevos tickers
   const anadirTicker = (e) => {
@@ -51,7 +56,7 @@ export const Tickers = () => {
     try {
       const promises = tickersData.map(async (ticker) => {
         const { mercado, simbolo, plazo } = ticker;
-        const url = `http://localhost:3001/auth/trade?accessToken=${accessToken}&mercado=${mercado}&simbolo=${simbolo}&plazo=${plazo[0]}`;
+        const url = `http://localhost:3001/auth/trade?accessToken=${accessToken}&mercado=${mercado}&simbolo=${simbolo}&plazo=${plazo[1]}`;
         const response = await fetch(url, {
           method: "GET",
           headers: {
@@ -64,12 +69,19 @@ export const Tickers = () => {
         } else {
           const data = await response.json();
           console.log(data);
-          setData(data);
+          const newObj = {
+            mercado,
+            simbolo,
+            plazo,
+            data,
+          };
+          setT1((prevT1) => [...prevT1, newObj]);
         }
       });
 
       await Promise.all(promises);
-      toast.success("Trade exitoso");
+        toast.success("Trade exitoso");
+
     } catch (error) {
       console.error(error);
       toast.error(error.message);
@@ -79,7 +91,7 @@ export const Tickers = () => {
   return (
     <div className="container2">
       <button className="button4 " onClick={trade}>
-        TRADE
+        Iniciar
       </button>
       <h2 className="white">Agregar ticker</h2>
       <form className="form-tickers" onSubmit={anadirTicker}>
@@ -97,7 +109,9 @@ export const Tickers = () => {
           placeholder="Símbolo"
           className="input-small"
         />
-        <select name="plazo" className="input-small"> {/* Arreglar que se añada automaticamente ambos plazos*/}
+        <select name="plazo" className="input-small">
+          {" "}
+          {/* Arreglar que se añada automaticamente ambos plazos*/}
           <option value="t0">t0</option>
           <option value="t1">t1</option>
         </select>
@@ -112,8 +126,15 @@ export const Tickers = () => {
             <li>
               MERCADO: <strong>{ticker.mercado} </strong>
               Símbolo: <strong className="blue">{ticker.simbolo} </strong>
-              Plazo:<strong>{ticker.plazo[0]}; {ticker.plazo[1]}</strong>
-              <button className="button3" data-index={index} onClick={(e) => eliminarTicker(e, index)}>
+              Plazo:
+              <strong>
+                {ticker.plazo[0]}; {ticker.plazo[1]}
+              </strong>
+              <button
+                className="button3"
+                data-index={index}
+                onClick={(e) => eliminarTicker(e, index)}
+              >
                 Eliminar
               </button>
             </li>
