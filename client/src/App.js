@@ -4,6 +4,7 @@ import { Routes, Route } from "react-router-dom"
 import { Tickers } from './components/Tickers';
 import { Toaster } from 'react-hot-toast'
 import { AuthProvider } from './components/AuthContext';
+import { Table } from './components/Table';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
    <Routes>
       <Route path="/" element={<LoginForm />} />
       <Route path="/tickers" element={<Tickers />} />
+      <Route path="/table" element={<Table />} />
   </Routes>
     </AuthProvider>
   )
