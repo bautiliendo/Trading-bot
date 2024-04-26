@@ -173,4 +173,18 @@ background-color: rgb(247, 149, 149);
     background-color: rgb(171, 250, 171);
     }
 
+/* Estilos tabla*/
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
 
+th, td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #f2f2f2;
+}

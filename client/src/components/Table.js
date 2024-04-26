@@ -43,10 +43,13 @@ export const Table = () => {
     <div>
       <h2>Tabla T0</h2>
       {t0Data && t0Data.length > 0 ? (
-        <table>
+        <table className='table'>
           <thead>
             <tr>
               <th>Símbolo</th>
+              <th>Dias</th>
+              <th>Mercado</th>
+              <th>Moneda</th>
               <th>UltimoPrecio</th>
               <th>A(t1/t0)</th>
               {/* Otras columnas según los datos de dataT0 */}
@@ -57,7 +60,10 @@ export const Table = () => {
               const aValue = aValues.find((value) => value.simbolo === ticker.simbolo);
               return (
                 <tr key={index}>
-                <td>{ticker.simbolo}</td>
+                <td>{ticker.simbolo}</td> 
+                <td>{ticker.dias}</td>
+                <td>{ticker.mercado}</td>
+                <td>{ticker.dataT0.moneda}</td>
                 <td>{ticker.dataT0.ultimoPrecio}</td>
                 <td>{aValue ? aValue.a : '-'}</td>
                 {/* Otras celdas según los datos de dataT0 */}
@@ -74,10 +80,14 @@ export const Table = () => {
       {t1Data && t1Data.length > 0 ? (
         <table>
           <thead>
-            <tr>
+          <tr>
               <th>Símbolo</th>
+              <th>Dias</th>
+              <th>Mercado</th>
+              <th>Moneda</th>
               <th>UltimoPrecio</th>
               <th>A(t1/t0)</th>
+              {/* Otras columnas según los datos de dataT0 */}
             </tr>
           </thead>
           <tbody>
@@ -85,7 +95,10 @@ export const Table = () => {
               const aValue = aValues.find((value) => value.simbolo === ticker.simbolo);
               return (
                 <tr key={index}>
-                <td>{ticker.simbolo}</td>
+                <td>{ticker.simbolo}</td> 
+                <td>{ticker.dias}</td>
+                <td>{ticker.mercado}</td>
+                <td>{ticker.dataT1.moneda}</td>
                 <td>{ticker.dataT1.ultimoPrecio}</td>
                 <td>{aValue ? aValue.a : '-'}</td>
                 {/* Otras celdas según los datos de dataT0 */}

@@ -77,7 +77,7 @@ export const Tickers = () => {
           } else {
             const dataT1 = await responseT1.json();
             const newObjT1 = {
-              // mercado,
+              mercado,
               simbolo,
               // plazo,
               dataT1,
@@ -104,7 +104,7 @@ export const Tickers = () => {
           } else {
             const dataT0 = await responseT0.json();
             const newObjtT0 = {
-              // mercado,
+              mercado,
               simbolo,
               // plazo,
               dataT0
