@@ -11,8 +11,9 @@ export const Tickers = () => {
   const [tickersData, setTickersData] = useState([]);
   const [accessToken, setAccessToken] = useState("Acces token nulo");
   const [t0, setT0] = useState([]);
-  const [t1, setT1] = useState([]);
+  const [t2, setT2] = useState([]);
   const [isDataReady, setIsDataReady] = useState(false);
+  const [dataCaucion, setDataCaucion] = useState([]);
  
 
   useEffect(() => {
@@ -33,19 +34,23 @@ export const Tickers = () => {
   }, [tickersData]);
 
   useEffect(() => {
-    console.log(t1);
-  }, [t1]);
+    console.log(t2);
+  }, [t2]);
   
   useEffect(() => {
     console.log(t0);
   }, [t0]);
+
+  useEffect(() => {
+    console.log(dataCaucion);
+  }, [dataCaucion]);
 
   //Boton para añadir nuevos tickers
   const anadirTicker = (e) => {
     e.preventDefault();
     const mercado = e.target.mercado.value;
     const simbolo = e.target.simbolo.value;
-    const plazo = e.target.plazo.value;
+    const plazo = ["t0","t2"];
     const newTicker = { mercado, simbolo, plazo };
     setTickersData([...tickersData, newTicker]);
   };
@@ -64,25 +69,25 @@ export const Tickers = () => {
       try {
         const promises = tickersData.map(async (ticker) => {
           const { mercado, simbolo, plazo } = ticker;
-          const urlT1 = `http://localhost:3001/auth/trade?accessToken=${accessToken}&mercado=${mercado}&simbolo=${simbolo}&plazo=${plazo[1]}`;
-          const responseT1 = await fetch(urlT1, {
+          const urlT2 = `http://localhost:3001/auth/trade?accessToken=${accessToken}&mercado=${mercado}&simbolo=${simbolo}&plazo=${plazo[1]}`;
+          const responseT2 = await fetch(urlT2, {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
             },
           });
   
-          if (!responseT1.ok) {
-            throw new Error("Error en el trade t1");
+          if (!responseT2.ok) {
+            throw new Error("Error en el trade t2");
           } else {
-            const dataT1 = await responseT1.json();
-            const newObjT1 = {
+            const dataT2 = await responseT2.json();
+            const newObjT2 = {
               mercado,
               simbolo,
               // plazo,
-              dataT1,
+              dataT2,
             };
-            setT1((prevT1) => [...prevT1, newObjT1]);
+            setT2((prevT2) => [...prevT2, newObjT2]);
           }
         });
   
@@ -114,6 +119,24 @@ export const Tickers = () => {
         });
   
         await Promise.all(t0Promises);
+
+        const caucionPromise = async () => {
+          const urlCaucion = `http://localhost:3001/auth/caucion?accessToken=${accessToken}`;
+          const responseCaucion = await fetch(urlCaucion, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+          if (!responseCaucion.ok) {
+            throw new Error("Error en la obtencion de la caucion");
+          } else {
+            const dataCaucion = await responseCaucion.json();
+            setDataCaucion(dataCaucion);
+          }
+        }
+
+        await Promise.all([caucionPromise()]);
         toast.success("Ya puedes acceder a los datos");
         setIsDataReady(true);
   
@@ -122,15 +145,15 @@ export const Tickers = () => {
         toast.error(error.message);
       }
     }
-    
     else {
       toast.error("Acces token expirado")
       navigate("/")
     }
   };
+
   const handleNavigateToTable = () => {
     if (isDataReady) {
-      navigate('/table', { state: { t0Data: t0, t1Data: t1 } });
+      navigate('/table', { state: { t0Data: t0, t2Data: t2 } });
     } else {
       toast.error("Los datos de tickers no estan cargados")
     }
@@ -158,9 +181,8 @@ export const Tickers = () => {
         />
         <select name="plazo" className="input-small">
           {" "}
-          {/* Arreglar que se añada automaticamente ambos plazos*/}
-          <option value="t0">t0</option>
-          <option value="t1">t1</option>
+          <option value="">t0 ; t2</option>
+
         </select>
         <button type="submit" className="button2">
           Añadir
