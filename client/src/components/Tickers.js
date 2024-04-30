@@ -13,7 +13,8 @@ export const Tickers = () => {
   const [t0, setT0] = useState([]);
   const [t2, setT2] = useState([]);
   const [isDataReady, setIsDataReady] = useState(false);
-  const [dataCaucion, setDataCaucion] = useState([]);
+  const [caucionPesos, setCaucionPesos] = useState();
+  const [caucionDolares, setCaucionDolares] = useState();
  
 
   useEffect(() => {
@@ -29,21 +30,19 @@ export const Tickers = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    console.log(tickersData);
-  }, [tickersData]);
-
-  useEffect(() => {
-    console.log(t2);
-  }, [t2]);
+  // useEffect(() => {
+  //   console.log(t2);
+  // }, [t2]);
   
-  useEffect(() => {
-    console.log(t0);
-  }, [t0]);
+  // useEffect(() => {
+  //   console.log(t0);
+  // }, [t0]);
 
   useEffect(() => {
-    console.log(dataCaucion);
-  }, [dataCaucion]);
+    console.log(caucionPesos);
+    console.log(caucionDolares);
+  }, [caucionDolares]);
+
 
   //Boton para añadir nuevos tickers
   const anadirTicker = (e) => {
@@ -120,6 +119,7 @@ export const Tickers = () => {
   
         await Promise.all(t0Promises);
 
+        //Calcular el precio de caucion en pesos y dolares
         const caucionPromise = async () => {
           const urlCaucion = `http://localhost:3001/auth/caucion?accessToken=${accessToken}`;
           const responseCaucion = await fetch(urlCaucion, {
@@ -132,14 +132,26 @@ export const Tickers = () => {
             throw new Error("Error en la obtencion de la caucion");
           } else {
             const dataCaucion = await responseCaucion.json();
-            setDataCaucion(dataCaucion);
+            console.log(dataCaucion);
+            //Verifica que la caucion en pesos sea correcta ( generalmente > 35)
+            if(dataCaucion.titulos[0].tasaPromedio > 35){
+              setCaucionPesos(dataCaucion.titulos[0].tasaPromedio)
+            } else {
+              throw new Error("Error en la obtencion de la caucion en pesos");
+            }
+            //Verifica que la caucion en dolares sea correcta ( generalmente < 1)
+            if(dataCaucion.titulos[1].tasaPromedio < 1){
+              setCaucionDolares(dataCaucion.titulos[1].tasaPromedio)
+            } else {
+              throw new Error("Error en la obtencion de la caucion en dolares");
+            }
           }
         }
 
         await Promise.all([caucionPromise()]);
         toast.success("Ya puedes acceder a los datos");
         setIsDataReady(true);
-  
+
       } catch (error) {
         console.error(error);
         toast.error(error.message);
@@ -151,11 +163,12 @@ export const Tickers = () => {
     }
   };
 
-  const handleNavigateToTable = () => {
+  const handleNavigateToTable = (e) => {
+
     if (isDataReady) {
-      navigate('/table', { state: { t0Data: t0, t2Data: t2 } });
+      navigate('/table', { state: { t0Data: t0, t2Data: t2, caucionPesos, caucionDolares } });
     } else {
-      toast.error("Los datos de tickers no estan cargados")
+       toast.error("Los datos de tickers no estan cargados")
     }
   };
 
