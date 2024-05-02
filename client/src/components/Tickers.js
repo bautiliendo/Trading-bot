@@ -134,7 +134,7 @@ export const Tickers = () => {
             const dataCaucion = await responseCaucion.json();
             console.log(dataCaucion);
             //Verifica que la caucion en pesos sea correcta ( generalmente > 35)
-            if(dataCaucion.titulos[0].tasaPromedio > 35){
+            if(dataCaucion.titulos[0].tasaPromedio > 25){
               setCaucionPesos(dataCaucion.titulos[0].tasaPromedio)
             } else {
               throw new Error("Error en la obtencion de la caucion en pesos");
