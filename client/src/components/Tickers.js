@@ -22,7 +22,7 @@ export const Tickers = () => {
   }, [bearer]);
 
   useEffect(() => {
-    console.log(accessToken); 
+    console.log("Acces token: "+ accessToken); 
   }, [accessToken]);
 
   useEffect(() => {
@@ -30,21 +30,12 @@ export const Tickers = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // useEffect(() => {
-  //   console.log(t2);
-  // }, [t2]);
-  
-  // useEffect(() => {
-  //   console.log(t0);
-  // }, [t0]);
-
   useEffect(() => {
-    console.log(caucionPesos);
-    console.log(caucionDolares);
+    console.log("Tasa caución en pesos: "+ caucionPesos);
+    console.log("Tasa caución en dolares: "+caucionDolares);
   }, [caucionDolares]);
 
 
-  //Boton para añadir nuevos tickers
   const anadirTicker = (e) => {
     e.preventDefault();
     const mercado = e.target.mercado.value;
@@ -54,14 +45,13 @@ export const Tickers = () => {
     setTickersData([...tickersData, newTicker]);
   };
 
-  //Boton para eliminar tickers
   const eliminarTicker = (e, index) => {
     e.preventDefault();
     const newTickersData = tickersData.filter((ticker, i) => i !== index);
     setTickersData(newTickersData);
   };
 
-  //Boton para iniciar TRADE
+  //Boton para iniciar TRADE / Obtener t2, t0 y cauciones
   const trade = async (event) => {
     event.preventDefault();
     if(accessToken){
@@ -119,7 +109,6 @@ export const Tickers = () => {
   
         await Promise.all(t0Promises);
 
-        //Calcular el precio de caucion en pesos y dolares
         const caucionPromise = async () => {
           const urlCaucion = `http://localhost:3001/auth/caucion?accessToken=${accessToken}`;
           const responseCaucion = await fetch(urlCaucion, {
@@ -133,17 +122,17 @@ export const Tickers = () => {
           } else {
             const dataCaucion = await responseCaucion.json();
             console.log(dataCaucion);
-            //Verifica que la caucion en pesos sea correcta ( generalmente > 35)
+            //Verifica que la caucion en pesos sea correcta (> 25) Puede variar con el tiempo
             if(dataCaucion.titulos[0].tasaPromedio > 25){
               setCaucionPesos(dataCaucion.titulos[0].tasaPromedio)
             } else {
               throw new Error("Error en la obtencion de la caucion en pesos");
             }
-            //Verifica que la caucion en dolares sea correcta ( generalmente < 1)
-            if(dataCaucion.titulos[1].tasaPromedio < 1){
+            //Verifica que la caucion en dolares sea correcta ( generalmente < 2)
+            if(dataCaucion.titulos[1].tasaPromedio < 2){
               setCaucionDolares(dataCaucion.titulos[1].tasaPromedio)
             } else {
-              throw new Error("Error en la obtencion de la caucion en dolares");
+              throw new Error("Error en la obtencion de la caución en dolares");
             }
           }
         }

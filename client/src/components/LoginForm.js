@@ -45,7 +45,7 @@ export const LoginForm = () => {
   return (
     <div className='container'>
       <div className='form'>
-        <h1>Ingresa tus datos para acceder a la API invertironline.com</h1>
+        <h1>Ingresa tus datos de acceso a la API Invertir online</h1>
         <form onSubmit={handleSubmit}>
           <div>
             <label>Usuario</label>
