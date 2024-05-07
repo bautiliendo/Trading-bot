@@ -59,7 +59,7 @@ const calculateA = () => {
 
       // Calcular A
       const a = ((puntaCompradoraT2 / puntaVendedoraT0) - 1) * 100;
-      return { simbolo: t0Ticker.simbolo, a };
+      return { simbolo: t0Ticker.simbolo, a , puntaVendedoraT0, puntaCompradoraT2};
     }
     return null;
   }).filter(Boolean);
@@ -100,144 +100,88 @@ const calculateA = () => {
     console.log("Array con t0 + t2 ordenado por símbolo:", allSortedData);
   }, [allSortedData]);
 
-//RETURN SIMBOLOS ORDENADOS ALFABETICAMENTE
-//   return (
-//     <div className="body-table">
-//       <h2>Tabla de valores</h2>
-//       {t0Data && t0Data.length > 0 ? (
-//         <table className="table">
-//           <thead>
-//             <tr>
-//               <th>Símbolo</th>
-//               {/* <th>Dias ? </th> */}
-//               <th>Mercado</th>
-//               <th>Moneda</th>
-//               <th>UltimoPrecio T0</th>
-//               <th>A (T2/T0 - 1) x 100</th>
-//               <th>B (caucion TNA/ 365) (JU x 3) (VI X 4)</th>
-//               <th>Comparacion A - B</th>
-//               {/* Otras columnas según los datos de dataT0 */}
-//             </tr>
-//           </thead>
-//           <tbody>
-//             {sortedT0Data.map((ticker, index) => {
-//               const aValue = aValues.find((value) => value.simbolo === ticker.simbolo);
-//               const bValue = ticker.dataT0.moneda === "peso_Argentino" ? bValuesP : bValuesD;
-
-//               return (
-//                 <tr key={index}>
-//                   <td>{ticker.simbolo}</td>
-//                   <td>{ticker.mercado}</td>
-//                   <td>{ticker.dataT0.moneda}</td>
-//                   <td>{ticker.dataT0.ultimoPrecio}</td>
-//                   <td>{aValue ? aValue.a : "-"}</td>
-//                   <td><td>{bValue}</td></td>
-//                   <td>
-//                     {aValue ? 
-//                     aValue.a - bValue
-//                     : 
-//                     "No hay data de puntas"}
-//                   </td>
-//                 </tr>
-//               );
-//             })}
-//             <tr></tr>
-//           </tbody>
-//         </table>
-//       ) : (
-//         <p>No hay datos para la tabla</p>
-//       )}
-//       <div className="info-cauciones">
-//         <h4 className="cauciones"> Precio caucion en pesos: {caucionPesos}</h4>
-//         <ul>
-//           <li>
-//             B (caucion en pesos / 365): {caucionPesos / 365} (
-//             <strong>Jueves x3 = </strong>
-//             {(caucionPesos / 365) * 3}) ; (<strong>Viernes x4 = </strong>
-//             {(caucionPesos / 365) * 4})
-//           </li>
-//         </ul>
-//         <h4> Precio caucion en dólares: {caucionDolares}</h4>
-//         <ul>
-//           <li>
-//             B (caucion en dolares / 365): {caucionDolares / 365} (
-//             <strong>Jueves x3 = </strong>
-//             {(caucionDolares / 365) * 3}) ; (<strong>Viernes x4 = </strong>
-//             {(caucionDolares / 365) * 4})
-//           </li>
-//         </ul>
-//       </div>
-//     </div>
-//   );
-// };
 
 //RETURN ORDENDADO POR OPORTUNIDAD DE TRADE
 return (
   <div className="body-table">
-    <h2>Tabla de valores</h2>
-    {t0Data && t0Data.length > 0 ? (
-      <table className="table">
-        <thead>
-          <tr>
-            <th>Símbolo</th>
-            <th>Mercado</th>
-            <th>Moneda</th>
-            <th>UltimoPrecio T0</th>
-            <th>A (T2/T0 - 1) x 100</th>
-            <th>B (caucion TNA/ 365) (JU x 3) (VI X 4)</th>
-            <th>Comparacion A - B</th>
-          </tr>
-        </thead>
-        <tbody>
-          {sortedT0Data
-            .map((ticker, index) => {
-              const aValue = aValues.find((value) => value.simbolo === ticker.simbolo);
-              const bValue = ticker.dataT0.moneda === "peso_Argentino" ? bValuesP : bValuesD;
-
-              const comparison =
-                aValue && typeof aValue.a === "number" && typeof bValue === "number"
-                  ? aValue.a - bValue
-                  : null;
-
-              return { ticker, aValue, bValue, comparison };
-            })
-            .filter((item) => item.comparison !== null)
-            .sort((a, b) => b.comparison - a.comparison)
-            .map(({ ticker, aValue, bValue, comparison }, index) => (
-              <tr key={index}>
-                <td>{ticker.simbolo}</td>
-                <td>{ticker.mercado}</td>
-                <td>{ticker.dataT0.moneda}</td>
-                <td>{ticker.dataT0.ultimoPrecio}</td>
-                <td>{aValue ? aValue.a : "-"}</td>
-                <td>{bValue}</td>
-                <td>{comparison}</td>
-              </tr>
-            ))}
-        </tbody>
-      </table>
-    ) : (
-      <p>No hay datos para la tabla</p>
-    )}
-    <div className="info-cauciones">
-      <h4 className="cauciones"> Precio caucion en pesos: {caucionPesos}</h4>
-      <ul>
-        <li>
-          B (caucion en pesos / 365): {caucionPesos / 365} (
-          <strong>Jueves x3 = </strong>
-          {(caucionPesos / 365) * 3}) ; (<strong>Viernes x4 = </strong>
-          {(caucionPesos / 365) * 4})
-        </li>
-      </ul>
-      <h4> Precio caucion en dólares: {caucionDolares}</h4>
-      <ul>
-        <li>
-          B (caucion en dolares / 365): {caucionDolares / 365} (
-          <strong>Jueves x3 = </strong>
-          {(caucionDolares / 365) * 3}) ; (<strong>Viernes x4 = </strong>
-          {(caucionDolares / 365) * 4})
-        </li>
-      </ul>
+    <div className="table-container">
+      <h2 className="h2">Tabla de valores</h2>
+      <div className="info-cauciones">
+        <h4 className="cauciones">Precio caucion en pesos: {caucionPesos}</h4>
+        <ul>
+          <li>
+            B (caucion en pesos / 365): {caucionPesos / 365} (
+            <strong>Jueves x3 = </strong>
+            {(caucionPesos / 365) * 3}) ; (<strong>Viernes x4 = </strong>
+            {(caucionPesos / 365) * 4})
+          </li>
+        </ul>
+        <h4>Precio caucion en dólares: {caucionDolares}</h4>
+        <ul>
+          <li>
+            B (caucion en dolares / 365): {caucionDolares / 365} (
+            <strong>Jueves x3 = </strong>
+            {(caucionDolares / 365) * 3}) ; (<strong>Viernes x4 = </strong>
+            {(caucionDolares / 365) * 4})
+          </li>
+        </ul>
+      </div>
+      {t0Data && t0Data.length > 0 ? (
+        <table className="table">
+          <thead>
+            <tr>
+              <th>Símbolo</th>
+              <th>Mercado</th>
+              <th>Moneda</th>
+              <th>UltimoPrecio T0</th>
+              <th>Punta Vendedora T0</th>
+              <th>Punta Compradora T2</th>
+              <th>A (T2/T0 - 1) x 100</th>
+              <th>B (caucion TNA/ 365) (JU x 3) (VI X 4)</th>
+              <th>Comparacion A - B</th>
+            </tr>
+          </thead>
+          <tbody>
+            {sortedT0Data
+              .map((ticker, index) => {
+                const aValue = aValues.find(
+                  (value) => value.simbolo === ticker.simbolo
+                );
+                const bValue =
+                  ticker.dataT0.moneda === "peso_Argentino" ? bValuesP : bValuesD;
+                const comparison =
+                  aValue &&
+                  typeof aValue.a === "number" &&
+                  typeof bValue === "number"
+                    ? aValue.a - bValue
+                    : null;
+                return { ticker, aValue, bValue, comparison };
+              })
+              .filter((item) => item.comparison !== null)
+              .sort((a, b) => b.comparison - a.comparison)
+              .map(({ ticker, aValue, bValue, comparison }, index) => (
+                <tr
+                  key={index}
+                  style={{
+                    backgroundColor: comparison > 0 ? "#d4edda" : "inherit",
+                  }}
+                >
+                  <td>{ticker.simbolo}</td>
+                  <td>{ticker.mercado}</td>
+                  <td>{ticker.dataT0.moneda}</td>
+                  <td>{ticker.dataT0.ultimoPrecio}</td>
+                  <td>{aValue ? aValue.puntaVendedoraT0 : "-"}</td>
+                  <td>{aValue ? aValue.puntaCompradoraT2 : "-"}</td>
+                  <td>{aValue ? aValue.a : "-"}</td>
+                  <td>{bValue}</td>
+                  <td>{comparison}</td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+      ) : (
+        <p>No hay datos para la tabla</p>
+      )}
     </div>
   </div>
 );
