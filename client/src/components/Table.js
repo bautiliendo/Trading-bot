@@ -80,7 +80,7 @@ const calculateA = () => {
       case 3: // Miércoles
       return (caucion / 365) * 2;
       case 4: // Jueves
-        return (caucion / 365) * 3;
+        return (caucion / 365) * 4;
       case 5: // Viernes
         return (caucion / 365) * 4;
       default:
