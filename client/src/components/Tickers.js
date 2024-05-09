@@ -163,9 +163,14 @@ export const Tickers = () => {
 
   return (
     <div className="container2">
-      <button className="button4 " onClick={trade}>Iniciar</button>  
-       {/* <button className="button " onClick={table}/> */}
-      <h2 className="white">Agregar ticker</h2>
+      {!isDataReady && (
+        <button className="button4 " onClick={trade}>Iniciar Trade</button>  
+      )}
+      {isDataReady && (
+        <button className="button5" onClick={handleNavigateToTable}>Ir a la tabla de datos</button>
+      )}
+      <div className="iniciar-trade-box">
+        <h2 className="white">Agregar ticker</h2>
       <form className="form-tickers" onSubmit={anadirTicker}>
         <select name="mercado" className="input-small">
           <option value="BCBA">BCBA</option>
@@ -190,6 +195,8 @@ export const Tickers = () => {
           Añadir
         </button>
       </form>
+      </div>
+      
       <h3 className="white">Tickers: </h3>
       <div className="tickers-container">
         {tickersData.map((ticker, index) => (
@@ -212,7 +219,6 @@ export const Tickers = () => {
           </ul>
         ))}
       </div>
-      <button className="button5" onClick={handleNavigateToTable}>Ir a la tabla de datos</button>
     </div>
   );
 };

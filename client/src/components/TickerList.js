@@ -30,7 +30,7 @@ export const tickers = [
   { mercado: "BCBA", simbolo: "GOGLD", plazo: ["t0", "t2"] },
   { mercado: "BCBA", simbolo: "IRCFD", plazo: ["t0", "t2"] },
   { mercado: "BCBA", simbolo: "IRCGO", plazo: ["t0", "t2"] },
-  { mercado: "BCBA", simbolo: "LOC2D", plazo: ["t0", "t2"] },
+  // { mercado: "BCBA", simbolo: "LOC2D", plazo: ["t0", "t2"] },
   { mercado: "BCBA", simbolo: "MELID", plazo: ["t0", "t2"] },
   { mercado: "BCBA", simbolo: "MGC9O", plazo: ["t0", "t2"] },
   { mercado: "BCBA", simbolo: "MRCAD", plazo: ["t0", "t2"] },

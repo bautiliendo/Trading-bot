@@ -20,6 +20,7 @@ code {
 }
 
 /* ESTILOS FORM */
+
 .container {
   background-color: #21D4FD;
   background-image: linear-gradient(19deg, #2b52bb 0%, #030957 100%);  
@@ -79,6 +80,10 @@ transform: scale(1.05);
 }
 
 /* TICKERS */
+.iniciar-trade-box{
+  margin: 10px;
+  padding: 10px;
+}
 .container2 {
   background-color: #21D4FD;
   background-image: linear-gradient(19deg, #2b52bb 0%, #030957 100%);  
@@ -158,7 +163,7 @@ background-color: rgb(247, 149, 149);
   }
 
   .button5 {
-    margin-top: 40px;
+    margin-top: 80px;
     margin-bottom: 40px;
     border: 1px solid ; 
     border-radius: 8px;

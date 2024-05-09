@@ -1,10 +1,8 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import '../index.css';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import AuthContext from './AuthContext';
-import { Tickers } from './Tickers';
-
 
 export const LoginForm = () => {
   const { setBearer } = useContext(AuthContext);
@@ -12,7 +10,18 @@ export const LoginForm = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  
+
+  useEffect(() => {
+    // Verificar si hay credenciales guardadas en el LocalStorage
+    const storedCredentials = localStorage.getItem('credentials');
+    if (storedCredentials) {
+      const { username: storedUsername, password: storedPassword } = JSON.parse(storedCredentials);
+      setUsername(storedUsername);
+      setPassword(storedPassword);
+    }
+  }, []);
+
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -33,7 +42,10 @@ export const LoginForm = () => {
         toast.success('Inicio de sesión exitoso. Bienvenido! ')
         const data = await response.json();
         setBearer(data);
-        navigate('/tickers')
+
+        localStorage.setItem('credentials', JSON.stringify({ username, password })); 
+
+        navigate('/tickers');
       }
 
     } catch (error) {
@@ -41,6 +53,7 @@ export const LoginForm = () => {
       setErrorMessage('Error al iniciar sesión. Por favor, verifica tus credenciales.');
     }
   };
+
 
   return (
     <div className='container'>
