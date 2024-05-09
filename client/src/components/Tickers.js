@@ -125,13 +125,19 @@ export const Tickers = () => {
             //Verifica que la caucion en pesos sea correcta (> 25) Puede variar con el tiempo
             if(dataCaucion.titulos[0].tasaPromedio > 25){
               setCaucionPesos(dataCaucion.titulos[0].tasaPromedio)
-            } else {
+            } else if(dataCaucion.titulos[1].tasaPromedio > 25){
+              setCaucionPesos(dataCaucion.titulos[1].tasaPromedio)
+            } 
+            else {
               throw new Error("Error en la obtencion de la caucion en pesos");
             }
             //Verifica que la caucion en dolares sea correcta ( generalmente < 2)
             if(dataCaucion.titulos[1].tasaPromedio < 2){
               setCaucionDolares(dataCaucion.titulos[1].tasaPromedio)
-            } else {
+            } else if(dataCaucion.titulos[0].tasaPromedio < 2){
+              setCaucionDolares(dataCaucion.titulos[0].tasaPromedio)
+            } 
+            else {
               throw new Error("Error en la obtencion de la caución en dolares");
             }
           }
