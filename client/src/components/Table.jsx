@@ -7,42 +7,26 @@ export const Table = () => {
   const [aValues, setAValues] = useState([]);
   const [bValuesP, setBValuesP] = useState([]);
   const [bValuesD, setBValuesD] = useState([]);
-  const [allSortedData, setAllSortedData] = useState([]);
+
   const [caucionPesosManual, setCaucionPesosManual] = useState(caucionPesos);
-  const [caucionDolaresManual, setCaucionDolaresManual] =
-    useState(caucionDolares);
+  const [caucionDolaresManual, setCaucionDolaresManual] = useState(caucionDolares);
 
   const getCurrentDay = () => {
     const today = new Date();
     return today.getDay();
   };
 
-  // Función para ordenar los datos por el campo 'simbolo' (alfabeticamente)
+  // Ordenar los datos por el campo 'simbolo' (alfabeticamente)
   const sortData = (data) => {
     return data.sort((a, b) => a.simbolo.localeCompare(b.simbolo));
   };
-
-  // Datos ordenados
   const sortedT0Data = sortData(t0Data);
   const sortedT2Data = sortData(t2Data);
 
   useEffect(() => {
-    console.log(sortedT0Data, sortedT2Data);
-    console.log(
-      "Caucion en pesos= " + caucionPesos,
-      "Caucion en dolares= " + caucionDolares
-    );
-    console.log("Dia de la semana: " + getCurrentDay());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sortedT0Data, sortedT2Data, caucionPesosManual, caucionDolaresManual]);
-
-  useEffect(() => {
     calculateA();
     calculateBvalues();
-    setAllSortedData(sortedT0Data.concat(sortedT2Data));
   }, [sortedT0Data, sortedT2Data, caucionPesos, caucionDolares]);
-
-  //Logica para encontrar A ( t2/t0 - 1 )  x 100
 
   // Lógica para encontrar A (puntaCompradoraT2 / puntaVendedoraT0 - 1) x 100
   const calculateA = () => {
@@ -82,16 +66,16 @@ export const Table = () => {
     const day = getCurrentDay();
 
     switch (day) {
-      case 0: // Domingo
-      case 6: // Sábado
-        return 0; // No se calcula B los fines de semana
-      case 1: // Lunes
-      case 2: // Martes
-      case 3: // Miércoles
+      case 0:
+      case 6:
+        return 0;
+      case 1:
+      case 2:
+      case 3:
         return (caucion / 365) * 2;
-      case 4: // Jueves
+      case 4:
         return (caucion / 365) * 4;
-      case 5: // Viernes
+      case 5:
         return (caucion / 365) * 4;
       default:
         return 0;
@@ -106,10 +90,8 @@ export const Table = () => {
     setBValuesD(bValueDolares);
   };
 
-  useEffect(() => {
-    console.log("Array con t0 + t2 ordenado por símbolo:", allSortedData);
-  }, [allSortedData]);
 
+  //Cambiar manualmente precio cauciones
   const cambiarCaucionP = (e) => {
     e.preventDefault();
     const newValue = parseFloat(e.target.value);
@@ -118,7 +100,6 @@ export const Table = () => {
       calculateBvalues();
     }
   };
-
   const cambiarCaucionD = (e) => {
     e.preventDefault();
     const newValue = parseFloat(e.target.value);
@@ -128,48 +109,51 @@ export const Table = () => {
     }
   };
 
-  //RETURN ORDENDADO POR OPORTUNIDAD DE TRADE
+  const formatValue = (value) => (isNaN(value) ? "N/A" : value.toFixed(10));
+
   return (
     <div className="body-table">
       <div className="table-container">
         <h2 className="h2">Tabla de valores</h2>
         <div className="info-cauciones">
           <h4 className="cauciones">
-            Precio caucion en pesos: {caucionPesosManual}
+            Precio caucion en pesos: {formatValue(caucionPesosManual)}
           </h4>
           <ul>
             <li>
               B (caución en pesos / 365)
               <strong> Lunes - miércoles x 2 =</strong>
-              {(caucionPesosManual / 365) * 2};<strong> Jueves x4 = </strong>
-              {(caucionPesosManual / 365) * 4};<strong> Viernes x4 = </strong>
-              {(caucionPesosManual / 365) * 4}
+              {formatValue((caucionPesosManual / 365) * 2)};<strong> Jueves x4 = </strong>
+              {formatValue((caucionPesosManual / 365) * 4)};<strong> Viernes x4 = </strong>
+              {formatValue((caucionPesosManual / 365) * 4)}
             </li>
           </ul>
-          <h4>Precio caución en dólares: {caucionDolaresManual}</h4>
+          <h4>Precio caución en dólares: {formatValue(caucionDolaresManual)}</h4>
           <ul>
             <li>
               B (caución en Dólares / 365)
               <strong> Lunes - miércoles x 2 =</strong>
-              {(caucionDolaresManual / 365) * 2};<strong> Jueves x4 = </strong>
-              {(caucionDolaresManual / 365) * 4};<strong> Viernes x4 = </strong>
-              {(caucionDolaresManual / 365) * 4}
+              {formatValue((caucionDolaresManual / 365) * 2)};<strong> Jueves x4 = </strong>
+              {formatValue((caucionDolaresManual / 365) * 4)};<strong> Viernes x4 = </strong>
+              {formatValue((caucionDolaresManual / 365) * 4)}
             </li>
           </ul>
           <form>
-            <label for="fname">Cambiar valor caución en pesos</label>
+            <label htmlFor="fname">Cambiar valor caución pesos</label>
             <input
               type="text"
               id="fname"
               name="fname"
               onChange={cambiarCaucionP}
+              placeholder="Añadir 00 al final. Ej: 22.00"
             />
-            <label for="lname">Cambiar valor caución en dolares</label>
+            <label htmlFor="lname">Cambiar valor caución usd</label>
             <input
               type="text"
               id="lname"
               name="lname"
               onChange={cambiarCaucionD}
+              placeholder="Añadir 00 al final. Ej: 2.00"
             />
           </form>
         </div>
@@ -201,7 +185,8 @@ export const Table = () => {
                   const comparison =
                     aValue &&
                     typeof aValue.a === "number" &&
-                    typeof bValue === "number"
+                    typeof bValue === "number" &&
+                    (aValue.a - bValue != Infinity)
                       ? aValue.a - bValue
                       : null;
                   return { ticker, aValue, bValue, comparison };
@@ -221,9 +206,9 @@ export const Table = () => {
                     <td>{ticker.dataT0.ultimoPrecio}</td>
                     <td>{aValue ? aValue.puntaVendedoraT0 : "-"}</td>
                     <td>{aValue ? aValue.puntaCompradoraT2 : "-"}</td>
-                    <td>{aValue ? aValue.a : "-"}</td>
-                    <td>{bValue}</td>
-                    <td>{comparison}</td>
+                    <td>{aValue ? formatValue(aValue.a) : "-"}</td>
+                    <td>{formatValue(bValue)}</td>
+                    <td>{formatValue(comparison)}</td>
                   </tr>
                 ))}
             </tbody>
