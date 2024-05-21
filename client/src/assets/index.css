@@ -12,6 +12,7 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
 .white{
   color: white;
 }
@@ -19,7 +20,7 @@ code {
   color: rgb(104, 104, 228);
 }
 
-/* ESTILOS FORM */
+/* ESTILOS Formulario de inicio de sesión*/
 
 .container {
   background-color: #21D4FD;
@@ -79,7 +80,7 @@ input[type=email], [type=password], [type=text], select {
 transform: scale(1.05);
 }
 
-/* TICKERS */
+/* Estilos TICKERS.jsx  */
 .iniciar-trade-box{
   margin: 10px;
   padding: 10px;
@@ -130,7 +131,6 @@ background-color: rgb(171, 250, 171);
   padding: 2px 9px;
   text-align: center;
   text-decoration: none;
-  /* display: inline-block; */
   margin-left: 10px;
   font-size: 15px;
 }
@@ -138,7 +138,8 @@ background-color: rgb(171, 250, 171);
 transform: scale(1.01);
 background-color: rgb(247, 149, 149);
 }
-/*Form tickers */
+
+/*Form tickers (añadir tickers) */
 .input-small {
   padding: 10px 5px;
   margin: 3px; 
@@ -178,7 +179,8 @@ background-color: rgb(247, 149, 149);
     background-color: rgb(171, 250, 171);
     }
 
-/* Estilos para la tabla */
+    
+/* Estilos para Table.jsx */
 .table-container {
   background-color: #f8f9fa;
   padding: 20px; 

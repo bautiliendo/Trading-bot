@@ -3,7 +3,7 @@ import { LoginForm } from './components/LoginForm';
 import { Routes, Route } from "react-router-dom"
 import { Tickers } from './components/Tickers';
 import { Toaster } from 'react-hot-toast'
-import { AuthProvider } from './components/AuthContext';
+import { AuthProvider } from './context/AuthContext';
 import { Table } from './components/Table';
 
 function App() {
