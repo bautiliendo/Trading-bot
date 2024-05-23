@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { calculateAHelper } from "../helpers/calculateAHelper";
+import { calculateBValueHelper } from "../helpers/calculateBHelper";
+import '../assets/table.css'
 
 export const Table = () => {
   const location = useLocation();
@@ -7,14 +10,8 @@ export const Table = () => {
   const [aValues, setAValues] = useState([]);
   const [bValuesP, setBValuesP] = useState([]);
   const [bValuesD, setBValuesD] = useState([]);
-
   const [caucionPesosManual, setCaucionPesosManual] = useState(caucionPesos);
   const [caucionDolaresManual, setCaucionDolaresManual] = useState(caucionDolares);
-
-  const getCurrentDay = () => {
-    const today = new Date();
-    return today.getDay();
-  };
 
   // Ordenar los datos por el campo 'simbolo' (alfabeticamente)
   const sortData = (data) => {
@@ -26,66 +23,19 @@ export const Table = () => {
   useEffect(() => {
     calculateA();
     calculateBvalues();
+    console.log( sortedT0Data, sortedT2Data )
   }, [sortedT0Data, sortedT2Data, caucionPesos, caucionDolares]);
 
   // Lógica para encontrar A (puntaCompradoraT2 / puntaVendedoraT0 - 1) x 100
   const calculateA = () => {
-    const newAValues = sortedT0Data
-      .map((t0Ticker, index) => {
-        const t2Ticker = sortedT2Data[index];
-        if (
-          t0Ticker.dataT0 &&
-          t2Ticker.dataT2 &&
-          t0Ticker.dataT0.puntas.length > 0 &&
-          t2Ticker.dataT2.puntas.length > 0
-        ) {
-          // Obtener la primera punta vendedora en T0
-          const puntaVendedoraT0 = t0Ticker.dataT0.puntas[0].precioVenta;
-
-          // Obtener la primera punta compradora en T2
-          const puntaCompradoraT2 = t2Ticker.dataT2.puntas[0].precioCompra;
-
-          // Calcular A
-          const a = (puntaCompradoraT2 / puntaVendedoraT0 - 1) * 100;
-          return {
-            simbolo: t0Ticker.simbolo,
-            a,
-            puntaVendedoraT0,
-            puntaCompradoraT2,
-          };
-        }
-        return null;
-      })
-      .filter(Boolean);
-
-    setAValues(newAValues);
-  };
-
-  // Función para calcular el valor de B según el día de la semana
-  const calculateBValue = (caucion) => {
-    const day = getCurrentDay();
-
-    switch (day) {
-      case 0:
-      case 6:
-        return 0;
-      case 1:
-      case 2:
-      case 3:
-        return (caucion / 365) * 2;
-      case 4:
-        return (caucion / 365) * 4;
-      case 5:
-        return (caucion / 365) * 4;
-      default:
-        return 0;
-    }
-  };
+    const newAValues = calculateAHelper(sortedT0Data, sortedT2Data);
+    setAValues(newAValues)
+  }
 
   // Función para calcular los valores de B en pesos y dólares llamando la anterior funcion calculateBValue
   const calculateBvalues = () => {
-    const bValuePesos = calculateBValue(caucionPesosManual);
-    const bValueDolares = calculateBValue(caucionDolaresManual);
+    const bValuePesos = calculateBValueHelper(caucionPesosManual);
+    const bValueDolares = calculateBValueHelper(caucionDolaresManual);
     setBValuesP(bValuePesos);
     setBValuesD(bValueDolares);
   };
@@ -117,7 +67,7 @@ export const Table = () => {
         <h2 className="h2">Tabla de valores</h2>
         <div className="info-cauciones">
           <h4 className="cauciones">
-            Precio caucion en pesos: {formatValue(caucionPesosManual)}
+            Precio caucion en pesos: {(caucionPesosManual)}
           </h4>
           <ul>
             <li>
@@ -128,7 +78,7 @@ export const Table = () => {
               {formatValue((caucionPesosManual / 365) * 4)}
             </li>
           </ul>
-          <h4>Precio caución en dólares: {formatValue(caucionDolaresManual)}</h4>
+          <h4>Precio caución en dólares: {(caucionDolaresManual)}</h4>
           <ul>
             <li>
               B (caución en Dólares / 365)
@@ -146,7 +96,7 @@ export const Table = () => {
               name="fname"
               onChange={cambiarCaucionP}
               placeholder="Añadir 00 al final. Ej: 22.00"
-            />
+            /> 
             <label htmlFor="lname">Cambiar valor caución usd</label>
             <input
               type="text"

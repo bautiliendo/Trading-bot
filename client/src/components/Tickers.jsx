@@ -2,8 +2,9 @@ import React, { useState, useEffect, useContext } from "react";
 import AuthContext from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { tickers } from "../data/TickerList";
-import { executeTrade } from '../helpers/tradeHelper'
-import { navigateTable } from '../helpers/navigateTableHelper'
+import { executeTrade } from "../helpers/tradeHelper";
+import { navigateTable } from "../helpers/navigateTableHelper";
+import "../assets/tickers.css";
 
 export const Tickers = () => {
   const navigate = useNavigate();
@@ -15,6 +16,7 @@ export const Tickers = () => {
   const [isDataReady, setIsDataReady] = useState(false);
   const [caucionPesos, setCaucionPesos] = useState();
   const [caucionDolares, setCaucionDolares] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setAccessToken(bearer.bearer.access_token);
@@ -49,11 +51,27 @@ export const Tickers = () => {
     setTickersData(newTickersData);
   };
 
-  //Boton para iniciar TRADE 
+  const handleTrade = (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    trade(e);
+  };
+
+  //Boton para iniciar TRADE
   const trade = async (e) => {
     e.preventDefault();
-    await executeTrade(accessToken, tickersData, setT0, setT2, setCaucionPesos, setCaucionDolares, setIsDataReady, navigate);
-  }
+    await executeTrade(
+      accessToken,
+      tickersData,
+      setT0,
+      setT2,
+      setCaucionPesos,
+      setCaucionDolares,
+      setIsDataReady,
+      navigate
+    );
+    setIsLoading(false);
+  };
 
   const handleNavigateToTable = (e) => {
     e.preventDefault();
@@ -63,17 +81,18 @@ export const Tickers = () => {
   return (
     <div className="container2">
       {!isDataReady && (
-        <button className="button4 " onClick={trade}>
+        <button className="button4 " onClick={handleTrade}>
           Iniciar Trade
         </button>
       )}
+      {isLoading ? <p className="white loading">Cargando ...</p> : ""}
       {isDataReady && (
         <button className="button5" onClick={handleNavigateToTable}>
           Ir a la tabla de datos
         </button>
       )}
-      <div className="iniciar-trade-box">
-        <h2 className="white">Agregar ticker</h2>
+      <div className="agregar-tickers-box">
+        <h3 className="white">Agregar ticker</h3>
         <form className="form-tickers" onSubmit={anadirTicker}>
           <select name="mercado" className="input-small">
             <option value="BCBA">BCBA</option>
