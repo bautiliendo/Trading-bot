@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import AuthContext from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { handleLogin } from "../helpers/loginHelper";
+import '../assets/login.css';
 
 export const LoginForm = () => {
   const navigate = useNavigate();

@@ -1,0 +1,163 @@
+/* Estilos TICKERS.jsx  */
+.container2 {
+  background-color: #21D4FD;
+  background-image: linear-gradient(19deg, #2b52bb 0%, #030957 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+@media (min-width: 600px) {
+  .container2 {
+    padding: 40px;
+  }
+}
+
+
+.agregar-tickers-box {
+  margin: 10px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 90%;
+  max-width: 800px;
+}
+
+.form-tickers {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.form-tickers .input-small,
+.form-tickers .button2 {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+@media (min-width: 600px) {
+  .form-tickers {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .form-tickers .input-small,
+  .form-tickers .button2 {
+    width: auto;
+    margin-bottom: 0;
+    margin-right: 10px;
+  }
+}
+
+.tickers-container {
+  display: flex;
+  flex-direction: column;
+  background-color: aliceblue;
+  border-radius: 8px;
+  padding: 10px;
+  width: 90%;
+  max-width: 800px;
+  margin: 10px auto;
+}
+
+.tickers-container ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+.tickers-container ul li {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.tickers-container ul li strong {
+  display: inline-block;
+  margin-right: 5px;
+}
+
+@media (min-width: 600px) {
+  .tickers-container ul li {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.button2,
+.button3,
+.button4,
+.button5 {
+  border: 1px solid black;
+  border-radius: 8px;
+  padding: 10px 30px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 15px;
+  margin: 2px;
+  width: 100%;
+  max-width: 200px;
+}
+
+.button2:hover,
+.button3:hover,
+.button4:hover,
+.button5:hover {
+  transform: scale(1.01);
+  background-color: rgb(171, 250, 171);
+}
+
+.button3:hover {
+  background-color: rgb(247, 149, 149);
+}
+
+.button4,
+.button5 {
+  margin: 20px auto;
+  width: 60%;
+  max-width: 300px;
+  font-size: 25px;
+}
+
+.input-small {
+  padding: 10px 5px;
+  margin: 3px;
+  border: 1px solid black;
+  border-radius: 6px;
+}
+
+@media (min-width: 600px) {
+  .button2,
+  .button3,
+  .button4,
+  .button5 {
+    width: auto;
+  }
+}
+
+.white {
+  color: white;
+}
+
+/*animacion cargando ... */
+ @keyframes fade {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.loading {
+  animation: fade 2s infinite;
+}

@@ -84,10 +84,10 @@ export const executeTrade = async (
           } else {
             throw new Error("Error en la obtencion de la caucion en pesos");
           }
-          //Verifica que la caucion en dolares sea correcta ( generalmente < 5)
-          if (dataCaucion.titulos[1].tasaPromedio < 5) {
+          //Verifica que la caucion en dolares sea correcta ( generalmente < 10)
+          if (dataCaucion.titulos[1].tasaPromedio < 10) {
             setCaucionDolares(dataCaucion.titulos[1].tasaPromedio);
-          } else if (dataCaucion.titulos[0].tasaPromedio < 5) {
+          } else if (dataCaucion.titulos[0].tasaPromedio < 10) {
             setCaucionDolares(dataCaucion.titulos[0].tasaPromedio);
           } else {
             throw new Error("Error en la obtencion de la caución en dolares");
