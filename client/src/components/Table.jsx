@@ -72,20 +72,16 @@ export const Table = () => {
           <ul>
             <li>
               B (caución en pesos / 365)
-              <strong> Lunes - miércoles x 2 =</strong>
-              {formatValue((caucionPesosManual / 365) * 2)};<strong> Jueves x4 = </strong>
-              {formatValue((caucionPesosManual / 365) * 4)};<strong> Viernes x4 = </strong>
-              {formatValue((caucionPesosManual / 365) * 4)}
+              <strong> Lunes - Jueves =</strong> {formatValue(caucionPesosManual / 365)};
+              <strong> Viernes x3 = </strong> {formatValue((caucionPesosManual / 365) * 3)}
             </li>
           </ul>
           <h4>Precio caución en dólares: {(caucionDolaresManual)}</h4>
           <ul>
             <li>
               B (caución en Dólares / 365)
-              <strong> Lunes - miércoles x 2 =</strong>
-              {formatValue((caucionDolaresManual / 365) * 2)};<strong> Jueves x4 = </strong>
-              {formatValue((caucionDolaresManual / 365) * 4)};<strong> Viernes x4 = </strong>
-              {formatValue((caucionDolaresManual / 365) * 4)}
+              <strong> Lunes - Jueves =</strong> {formatValue(caucionDolaresManual / 365)};
+              <strong> Viernes x3 = </strong> {formatValue((caucionDolaresManual / 365) * 3)}
             </li>
           </ul>
           <form>
@@ -116,9 +112,9 @@ export const Table = () => {
                 <th>Moneda</th>
                 <th>UltimoPrecio T0</th>
                 <th>Punta Vendedora T0</th>
-                <th>Punta Compradora T2</th>
-                <th>A (T2/T0 - 1) x 100</th>
-                <th>B (caucion TNA/ 365)x2 (JU x 4)-(VI X 4)</th>
+                <th>Punta Compradora T1</th>
+                <th>A (T1/T0 - 1) x 100</th>
+                <th>B (caucion TNA/ 365) (VI X 3)</th>
                 <th>Comparacion A - B</th>
               </tr>
             </thead>
