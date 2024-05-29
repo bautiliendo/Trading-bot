@@ -4,7 +4,7 @@ export const executeTrade = async (
   accessToken,
   tickersData,
   setT0,
-  setT2,
+  sett1,
   setCaucionPesos,
   setCaucionDolares,
   setIsDataReady,
@@ -14,24 +14,24 @@ export const executeTrade = async (
     try {
       const promises = tickersData.map(async (ticker) => {
         const { mercado, simbolo, plazo } = ticker;
-        const urlT2 = `http://localhost:3001/auth/trade?accessToken=${accessToken}&mercado=${mercado}&simbolo=${simbolo}&plazo=${plazo[1]}`;
-        const responseT2 = await fetch(urlT2, {
+        const urlt1 = `http://localhost:3001/auth/trade?accessToken=${accessToken}&mercado=${mercado}&simbolo=${simbolo}&plazo=${plazo[1]}`;
+        const responset1 = await fetch(urlt1, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
           },
         });
 
-        if (!responseT2.ok) {
-          throw new Error("Error en el trade t2");
+        if (!responset1.ok) {
+          throw new Error("Error en el trade t1");
         } else {
-          const dataT2 = await responseT2.json();
-          const newObjT2 = {
+          const datat1 = await responset1.json();
+          const newObjt1 = {
             mercado,
             simbolo,
-            dataT2,
+            datat1,
           };
-          setT2((prevT2) => [...prevT2, newObjT2]);
+          sett1((prevt1) => [...prevt1, newObjt1]);
         }
       });
 

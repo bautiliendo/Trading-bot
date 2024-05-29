@@ -12,7 +12,7 @@ export const Tickers = () => {
   const [tickersData, setTickersData] = useState([]);
   const [accessToken, setAccessToken] = useState("Acces token nulo");
   const [t0, setT0] = useState([]);
-  const [t2, setT2] = useState([]);
+  const [t1, sett1] = useState([]);
   const [isDataReady, setIsDataReady] = useState(false);
   const [caucionPesos, setCaucionPesos] = useState();
   const [caucionDolares, setCaucionDolares] = useState();
@@ -40,7 +40,7 @@ export const Tickers = () => {
     e.preventDefault();
     const mercado = e.target.mercado.value;
     const simbolo = e.target.simbolo.value;
-    const plazo = ["t0", "t2"];
+    const plazo = ["t0", "t1"];
     const newTicker = { mercado, simbolo, plazo };
     setTickersData([...tickersData, newTicker]);
   };
@@ -64,7 +64,7 @@ export const Tickers = () => {
       accessToken,
       tickersData,
       setT0,
-      setT2,
+      sett1,
       setCaucionPesos,
       setCaucionDolares,
       setIsDataReady,
@@ -75,7 +75,7 @@ export const Tickers = () => {
 
   const handleNavigateToTable = (e) => {
     e.preventDefault();
-    navigateTable(navigate, isDataReady, t0, t2, caucionPesos, caucionDolares);
+    navigateTable(navigate, isDataReady, t0, t1, caucionPesos, caucionDolares);
   };
 
   return (
@@ -110,7 +110,7 @@ export const Tickers = () => {
           />
           <select name="plazo" className="input-small">
             {" "}
-            <option value="">t0 ; t2</option>
+            <option value="">t0 ; t1</option>
           </select>
           <button type="submit" className="button2">
             Añadir

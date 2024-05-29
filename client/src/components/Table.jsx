@@ -6,7 +6,7 @@ import '../assets/table.css'
 
 export const Table = () => {
   const location = useLocation();
-  const { t0Data, t2Data, caucionPesos, caucionDolares } = location.state || {};
+  const { t0Data, t1Data, caucionPesos, caucionDolares } = location.state || {};
   const [aValues, setAValues] = useState([]);
   const [bValuesP, setBValuesP] = useState([]);
   const [bValuesD, setBValuesD] = useState([]);
@@ -18,17 +18,17 @@ export const Table = () => {
     return data.sort((a, b) => a.simbolo.localeCompare(b.simbolo));
   };
   const sortedT0Data = sortData(t0Data);
-  const sortedT2Data = sortData(t2Data);
+  const sortedt1Data = sortData(t1Data);
 
   useEffect(() => {
     calculateA();
     calculateBvalues();
-    console.log( sortedT0Data, sortedT2Data )
-  }, [sortedT0Data, sortedT2Data, caucionPesos, caucionDolares]);
+    console.log( sortedT0Data, sortedt1Data )
+  }, [sortedT0Data, sortedt1Data, caucionPesos, caucionDolares]);
 
-  // Lógica para encontrar A (puntaCompradoraT2 / puntaVendedoraT0 - 1) x 100
+  // Lógica para encontrar A (puntaCompradorat1 / puntaVendedoraT0 - 1) x 100
   const calculateA = () => {
-    const newAValues = calculateAHelper(sortedT0Data, sortedT2Data);
+    const newAValues = calculateAHelper(sortedT0Data, sortedt1Data);
     setAValues(newAValues)
   }
 
@@ -93,6 +93,7 @@ export const Table = () => {
               onChange={cambiarCaucionP}
               placeholder="Añadir 00 al final. Ej: 22.00"
             /> 
+            
             <label htmlFor="lname">Cambiar valor caución usd</label>
             <input
               type="text"
@@ -151,7 +152,7 @@ export const Table = () => {
                     <td>{ticker.dataT0.moneda}</td>
                     <td>{ticker.dataT0.ultimoPrecio}</td>
                     <td>{aValue ? aValue.puntaVendedoraT0 : "-"}</td>
-                    <td>{aValue ? aValue.puntaCompradoraT2 : "-"}</td>
+                    <td>{aValue ? aValue.puntaCompradorat1 : "-"}</td>
                     <td>{aValue ? formatValue(aValue.a) : "-"}</td>
                     <td>{formatValue(bValue)}</td>
                     <td>{formatValue(comparison)}</td>
